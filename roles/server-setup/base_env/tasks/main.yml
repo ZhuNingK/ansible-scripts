@@ -1,0 +1,33 @@
+---
+# Base Environment Configuration Tasks
+# This file orchestrates the basic server setup tasks
+    
+- name: "Configure hostname settings"
+  include_tasks: set-hostname.yml
+
+- name: "Configure package repositories"
+  include_tasks: config-repo.yml
+
+- name: "Update operating system packages"
+  include_tasks: update-os.yml
+
+- name: "Install system dependencies"
+  include_tasks: install-depends.yml
+
+- name: "Synchronize system time"
+  include_tasks: sync-time.yml
+
+- name: "Configure disk and filesystem"
+  include_tasks: set-disk.yml
+
+- name: "Configure security settings"
+  include_tasks: set-security.yml
+
+- name: "Configure network settings"
+  include_tasks: config-network.yml
+
+- name: "Set up execution environment and RC files"
+  include_tasks: set-exe-rc.yml
+
+- name: "Configure Vim editor"
+  include_tasks: config-vim.yml

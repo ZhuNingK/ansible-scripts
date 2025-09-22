@@ -1,0 +1,53 @@
+- name: Stop Firewalld
+  systemd:
+    name: firewalld
+    state: stopped
+    enabled: false
+
+- name: Change ulimit-CentOS
+  blockinfile:
+    path: /etc/security/limits.conf
+    block: |
+      *          soft    nproc     65535
+      *          hard    nproc     65535
+      *          soft    nofile    65535
+      *          hard    nofile    65535
+  when: ansible_distribution == "CentOS"
+
+- name: Change LimitNOFILE-openEuler
+  replace:
+    path: /etc/systemd/system.conf
+    regexp: "^#DefaultLimitNOFILE=1024:524288"
+    replace: "DefaultLimitNOFILE=65535"
+  register: is_reboot
+  when: ansible_distribution == "openEuler"
+
+- name: Change LimitNOFILE-openEuler
+  replace:
+    path: /etc/systemd/system.conf
+    regexp: "^#DefaultLimitNPROC="
+    replace: "DefaultLimitNPROC=65535"
+  register: is_reboot
+  when: ansible_distribution == "openEuler"
+
+- name: Change ulimit-Kylin
+  blockinfile:
+    path: /etc/security/limits.conf
+    block: |
+      *          soft    nproc     65535
+      *          hard    nproc     65535
+      *          soft    nofile    65535
+      *          hard    nofile    65535
+  when: ansible_distribution == "Kylin Linux Advanced Server"
+
+- name: Disable SELinux
+  replace: 
+    path: "/etc/selinux/config"
+    regexp: "^SELINUX=enforcing"
+    replace: "SELINUX=disabled"
+  register: is_reboot
+
+- name: Reboot
+  reboot:
+    reboot_timeout: 300
+  when: is_reboot.changed

@@ -1,0 +1,8 @@
+- name: Set time-zone
+  shell: "timedatectl set-timezone Asia/Shanghai"
+
+- name: Synctime
+  cron:
+    name: Synctime
+    job: "/usr/sbin/ntpdate ntp.aliyun.com"
+    minute: "*/30"

@@ -1,0 +1,13 @@
+- name: conf repo
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    force: yes
+  with_items: "{{ centos_repo_files }}"
+  when: ansible_distribution == "CentOS"
+
+- name: Clean repo cache
+  shell: "yum clean all"
+
+- name: Make repo cache
+  shell: "yum makecache"

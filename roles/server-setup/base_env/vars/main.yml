@@ -1,0 +1,7 @@
+# 定义centos镜像仓库地址
+centos_repo_files:
+  - url: "http://mirrors.aliyun.com/repo/Centos-7.repo"
+    dest: "/etc/yum.repos.d"
+  - url: "http://mirrors.aliyun.com/repo/epel-7.repo"
+    dest: "/etc/yum.repos.d"
+

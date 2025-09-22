@@ -1,0 +1,20 @@
+- name: Config vim
+  blockinfile:
+    path: /root/.vimrc
+    create: true
+    marker: '" {mark} ANSIBLE MANAGED BLOCK'
+    block: |
+      syntax on        "语法高亮
+
+      set autoindent   "自动缩进
+      set smartindent
+      set expandtab    "把一个 tab 字符替换成 tabstop 选项值对应的多个空格
+      set showmatch
+      set paste
+
+      set backspace=2    "设置退格键可用
+      set tabstop=4      "设置 tab 字符的显示宽度为4个空格的宽度
+      set softtabstop=4  "设置 tab 所占的列数，当输入 tab 时，设为4个空格的宽度
+      set shiftwidth=4
+
+      set completeopt=preview,menu  "代码补全

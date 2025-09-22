@@ -1,0 +1,58 @@
+# 此文件为ansible-playbook入口文件
+# ansible-playbook entrance-main.yml
+---
+- name: Server Setup Playbook
+  hosts: test
+  remote_user: root
+  gather_facts: yes
+  become: yes
+  become_method: sudo
+  vars:
+    SOFTWARE_PATH: "/root/asb_pkgs"
+    LINUX_SRC_PATH: "/usr/local/src"
+    LINUX_INSTALL_PATH: "/usr/local"
+    # 可以根据需要启用以下组件
+    install_openssl: false
+    install_openssh: false
+    install_cmake: false
+    install_mysql: false
+    install_nginx: false
+    install_lua: false
+
+  
+  pre_tasks:
+    - name: Ensure software directory exists
+      file:
+        path: "{{ SOFTWARE_PATH }}"
+        state: directory
+        mode: '0755'
+      tags: always
+  roles:
+    - role: base_env
+      tags: ['base', 'environment']
+
+      # 可选组件 - 根据变量控制是否安装
+    - role: install_openssl
+      when: install_openssl | default(false)
+      tags: ['ssl', 'security']
+
+    - role: install_openssh
+      when: install_openssh | default(false)
+      tags: ['ssh', 'security']
+    
+    - role: install_cmake
+      when: install_cmake | default(false)
+      tags: ['cmake', 'development']
+
+    - role: install_mysql
+      when: install_mysql | default(false)
+      tags: ['mysql', 'database']
+
+    - role: install_nginx
+      when: install_nginx | default(false)
+      tags: ['nginx', 'webserver']
+
+    - role: install_lua
+      when: install_lua | default(false)
+      tags: ['lua', 'scripting']
+

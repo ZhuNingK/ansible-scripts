@@ -1,0 +1,13 @@
+- name: install pkgs
+  yum:
+    name: "gcc,gcc-c++,make,perl,perl-devel,net-tools,kernel-devel,openssl-devel,telnet,ntpdate,vim,lsof,htop,iotop,wget,lrzsz,ntp"
+    state: present
+  
+- name: install Development tools
+  shell: 'yum groupinstall "Development tools" -y'
+
+- name: install  python3-libselinux
+  yum:
+    name: python3-libselinux
+    state: present
+  when: ansible_distribution == "openEuler"
