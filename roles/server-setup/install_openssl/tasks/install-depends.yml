@@ -1,0 +1,4 @@
+- name: Install lib
+  yum:
+    name: perl
+    state: present

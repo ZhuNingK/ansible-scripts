@@ -1,0 +1,15 @@
+- name: Path variable
+  blockinfile:
+    path: /etc/profile
+    marker: '#{mark} ANSIBLE MANAGED BLOCK OF OPENSSL VARIABLES'
+    block: "export OPENSSL_ROOT_DIR={{ OPENSSL_INSTALL_PATH }}"
+
+- name: Path profile.d
+  blockinfile:
+    path: /etc/profile.d/openssl.sh
+    create: yes
+    marker: '# {mark} ANSIBLE MANAGED BLOCK OF OPENSSL VARIABLES'
+    block: "export OPENSSL_ROOT_DIR={{ OPENSSL_INSTALL_PATH }}"
+
+- name: source
+  shell: "source /etc/profile"

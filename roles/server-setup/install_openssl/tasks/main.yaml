@@ -1,0 +1,18 @@
+---
+# Install OpenSSL from source
+# This task installs a specific version of OpenSSL
+
+- name: "Install dependencies for building OpenSSL"
+  include_tasks: install-depends.yml
+
+- name: "Install OpenSSL source"
+  include_tasks: install-openssl.yml
+
+- name: "Configure OpenSSL environment"
+  include_tasks: bak-files.yml
+
+- name: "Create symbolic links and set PATH for OpenSSL"
+  include_tasks: links.yml
+
+- name: "Set PATH variable for OpenSSL"
+  include_tasks: path-variable.yml

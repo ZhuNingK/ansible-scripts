@@ -1,0 +1,26 @@
+- name: Decompress openssl
+  unarchive:
+    src: "{{ SOFTWARE_PATH }}/{{ OPENSSL_SRC_ARCHIVE }}"
+    dest: "{{ LINUX_SRC_PATH }}"
+    creates: "{{ LINUX_SRC_PATH }}/{{ OPENSSL_SRC }}"
+
+- name: Complie openssl
+  command: 
+    argv: 
+      - ./config
+      - --prefix={{ OPENSSL_INSTALL_PATH }} 
+      - --openssldir={{ OPENSSL_INSTALL_PATH }}
+      - "-Wl,-rpath={{ OPENSSL_INSTALL_PATH }}/lib"
+      - no-zlib
+  args:
+    chdir: "{{ LINUX_SRC_PATH }}/{{ OPENSSL_SRC }}"
+
+- name: make openssl
+  command: "make"
+  args:
+    chdir: "{{ LINUX_SRC_PATH }}/{{ OPENSSL_SRC }}"
+
+- name: make install openssl
+  command: "make install"
+  args:
+    chdir: "{{ LINUX_SRC_PATH }}/{{ OPENSSL_SRC }}"

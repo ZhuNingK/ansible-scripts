@@ -1,0 +1,3 @@
+OPENSSL_SRC_ARCHIVE: "openssl-1.1.1w.tar.gz"
+OPENSSL_SRC: "openssl-1.1.1w"
+OPENSSL_INSTALL_PATH: "{{ LINUX_INSTALL_PATH }}/openssl1.1"

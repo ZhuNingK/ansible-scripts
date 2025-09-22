@@ -1,0 +1,30 @@
+- name: Ln exe of openssl
+  file:
+    src: "{{ OPENSSL_INSTALL_PATH }}/bin/openssl"
+    path: "/usr/bin/openssl"
+    state: link
+    force: true
+
+- name: Ln includ of openssl
+  file:
+    src: "{{ OPENSSL_INSTALL_PATH }}/include/openssl"
+    path: "/usr/include/openssl"
+    state: link
+    force: true
+
+- name: Ln lib of openssl
+  file:
+    src: "{{ OPENSSL_INSTALL_PATH }}/lib/libssl.so.1.1"
+    path: "/usr/local/lib64/libssl.so"
+    state: link
+    force: true
+
+- name: Ln .openssl
+  file:
+    src: "{{ OPENSSL_INSTALL_PATH }}/include"
+    path: "{{ OPENSSL_INSTALL_PATH }}/.openssl"
+    state: link
+    force: true
+
+- name: add lib
+  shell:  "echo {{ OPENSSL_INSTALL_PATH }}/lib /etc/ld.so.conf && ldconfig -v"

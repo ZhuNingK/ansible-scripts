@@ -1,0 +1,7 @@
+- name: Bak exe of openssl
+  shell: "mv /usr/bin/openssl /usr/bin/openssl.bak"
+  ignore_errors: true
+
+- name: Bak usr_include_openssl
+  shell: "mv /usr/include/openssl /usr/include/openssl.bak"
+  ignore_errors: true
