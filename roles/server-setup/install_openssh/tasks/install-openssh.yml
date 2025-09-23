@@ -1,0 +1,17 @@
+- name: install openssh
+  command: make install
+  args:
+    chdir: "{{ LINUX_SRC_PATH }}/{{ OPENSSH_SRC }}"
+      
+- name: config sshd
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    marker: '# {mark} ANSIBLE MANAGED BLOCK'
+    block: |
+      UseDNS no
+      PermitRootLogin yes
+      PubkeyAuthentication yes
+      PasswordAuthentication yes
+      X11Forwarding yes
+      X11UseLocalhost no
+      XAuthLocation /usr/bin/xauth

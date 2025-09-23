@@ -12,6 +12,7 @@
     LINUX_SRC_PATH: "/usr/local/src"
     LINUX_INSTALL_PATH: "/usr/local"
     # 可以根据需要启用以下组件
+    base_env: true
     install_openssl: false
     install_openssh: false
     install_cmake: false

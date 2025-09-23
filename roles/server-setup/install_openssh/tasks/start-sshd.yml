@@ -1,0 +1,63 @@
+---
+# OpenSSH Service Configuration and Startup Tasks
+# This file handles backing up existing SSH configurations and starting the new SSH service
+
+# Backup existing sshd service files before replacement
+- name: Backup sshd.service from /etc/systemd/system
+  copy:
+    src: /etc/systemd/system/sshd.service
+    dest: "/etc/systemd/system/sshd.service.bak_{{ ansible_date_time.date }}"
+    remote_src: true
+    backup: true
+  ignore_errors: true
+
+- name: Backup sshd.service from /usr/lib/systemd/system
+  copy:
+    src: /usr/lib/systemd/system/sshd.service
+    dest: "/usr/lib/systemd/system/sshd.service.bak_{{ ansible_date_time.date }}"
+    remote_src: true
+    backup: true
+  ignore_errors: true
+
+# Copy SSH configuration files using copy module
+- name: Copy sshd init script
+  copy:
+    src: "{{ LINUX_SRC_PATH }}/{{ OPENSSH_SRC }}/contrib/redhat/sshd.init"
+    dest: /etc/init.d/sshd
+    remote_src: true
+    mode: '0755'  # Set executable permissions directly
+    owner: root
+    group: root
+
+- name: Copy sshd PAM configuration
+  copy:
+    src: "{{ LINUX_SRC_PATH }}/{{ OPENSSH_SRC }}/contrib/redhat/sshd.pam"
+    dest: /etc/pam.d/sshd
+    remote_src: true
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: true
+
+- name: Stop existing sshd service
+  shell: /etc/init.d/sshd stop
+  ignore_errors: true
+
+- name: Start sshd
+  shell: systemctl start sshd
+  register: sshd_start
+
+- name: Status sshd 
+  shell: systemctl status sshd
+  register: sshd_status
+
+- name: Enable sshd 
+  shell: systemctl enable sshd
+  register: sshd_enable
+
+- name:  Is-enabled sshd 
+  shell: systemctl  is-enabled sshd
+  register: sshd_is_enabled

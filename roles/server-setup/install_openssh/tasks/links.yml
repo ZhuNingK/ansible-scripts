@@ -1,0 +1,20 @@
+- name: create soft link_ssh
+  file:
+    src:  "{{ OPENSSH_INSTALL_PATH }}/bin/ssh"
+    path: /usr/bin/ssh
+    state: link
+    force: true
+
+- name: create soft link_ssh-keygen 
+  file:
+    src: "{{ OPENSSH_INSTALL_PATH }}/bin/ssh-keygen"
+    path: /usr/bin/ssh-keygen
+    state: link
+    force: true
+
+- name: create soft link_sshd
+  file:
+    src: "{{ OPENSSH_INSTALL_PATH }}/sbin/sshd"
+    path: /usr/sbin/sshd
+    state: link
+    force: true

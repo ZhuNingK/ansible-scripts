@@ -1,0 +1,27 @@
+---
+# Install OpenSSH from source
+# This task installs and configures OpenSSH server
+
+- name: "Install dependencies for building OpenSSH"
+  include_tasks: install-depends.yml
+
+- name: "Enable Telnet"
+  include_tasks: enable-telnet.yml
+
+- name: "Decompress OpenSSH"
+  include_tasks: decompress-openssh.yml
+
+- name: "Compile OpenSSH"
+  include_tasks: compile.yml
+
+- name: "Backup configuration files"
+  include_tasks: bak-files.yml
+
+- name: "Install OpenSSH"
+  include_tasks: install-openssh.yml
+  
+- name: "Create symbolic links"
+  include_tasks: links.yml
+
+- name: "Start SSH daemon"
+  include_tasks: start-sshd.yml

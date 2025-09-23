@@ -1,0 +1,9 @@
+- name: Install required software
+  yum:
+    name: xinetd,telnet-server,gcc,gcc-c++,glibc,make,autoconf,pcre-devel,pam-devel,zlib,zlib-devel
+    state: present
+    
+- name: Install openssl-devel 
+  yum: 
+    name: openssl-devel
+    state: present

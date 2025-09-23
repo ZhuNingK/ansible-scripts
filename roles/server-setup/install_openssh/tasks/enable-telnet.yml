@@ -1,0 +1,26 @@
+- name: config telnet
+  blockinfile:
+    path: /etc/securetty
+    marker: '# {mark} ANSIBLE MANAGED BLOCK OF PTY'
+    block: |
+      pts/0
+      pts/1
+      pts/2
+      pts/3
+      pts/4
+  when: ansible_distribution == "CentOS"
+
+- name: start telnet
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - xinetd
+    - telnet.socket
+
+- name: wait for port 23
+  wait_for:
+    host: 0.0.0.0
+    port: 23
+    state: started

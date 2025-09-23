@@ -1,0 +1,36 @@
+- name: Get openssl prefix
+  shell:  openssl version -d|awk -F'\"' '{print $2}'
+  register: openssl_prefix
+
+- name: complie openssh when openssl is default
+  command: 
+    argv:
+      - ./configure 
+      - --prefix={{ OPENSSH_INSTALL_PATH }}
+      - --sysconfdir=/etc/ssh
+      - --with-zlib 
+      - --with-md5-passwords 
+      - --with-pam
+  args:
+    chdir: "{{ LINUX_SRC_PATH }}/{{ OPENSSH_SRC }}"
+  when: openssl_prefix.stdout is not match('^/usr/local/openssl')
+  
+- name: complie openssh when is not default
+  command: 
+    argv:
+      - ./configure 
+      - --prefix={{ OPENSSH_INSTALL_PATH }}
+      - --sysconfdir=/etc/ssh
+      - --with-ssl-dir={{ openssl_prefix.stdout }}
+      - --with-zlib 
+      - --with-md5-passwords 
+      - --with-pam
+      - --without-openssl-header-check
+  args:
+    chdir: "{{ LINUX_SRC_PATH }}/{{ OPENSSH_SRC }}"
+  when: openssl_prefix.stdout is match('^/usr/local/openssl')
+
+- name: make openssh
+  command: make
+  args:
+    chdir: "{{ LINUX_SRC_PATH }}/{{ OPENSSH_SRC }}"

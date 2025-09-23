@@ -1,0 +1,5 @@
+- name: Decompress openssh  installation package
+  unarchive:
+    src: "{{ SOFTWARE_PATH }}/{{ OPENSSH_SRC_ARCHIVE }}"
+    dest: "{{ LINUX_SRC_PATH }}"
+    creates: "{{ LINUX_SRC_PATH }}/{{ OPENSSH_SRC }}"
